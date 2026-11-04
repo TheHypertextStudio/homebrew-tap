@@ -1,0 +1,4 @@
+.hypertext/formatter-tools/node_modules/
+.hypertext/formatter-tools/venv/
+.hypertext/formatter-tools/runtime.json
+__pycache__/

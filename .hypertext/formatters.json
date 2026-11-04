@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "formatters": [
+    {
+      "include": ["*.md"],
+      "argv": [
+        "node",
+        ".hypertext/formatter-tools/prettier.mjs",
+        "{path}",
+        "markdown"
+      ]
+    },
+    {
+      "include": ["*.json"],
+      "argv": [
+        "node",
+        ".hypertext/formatter-tools/prettier.mjs",
+        "{path}",
+        "json"
+      ]
+    },
+    {
+      "include": ["*.yml", "*.yaml"],
+      "argv": [
+        "node",
+        ".hypertext/formatter-tools/prettier.mjs",
+        "{path}",
+        "yaml"
+      ]
+    },
+    {
+      "include": ["*.mjs"],
+      "argv": [
+        "node",
+        ".hypertext/formatter-tools/prettier.mjs",
+        "{path}",
+        "babel"
+      ]
+    }
+  ],
+  "exclude": [
+    {
+      "include": [
+        ".hypertext/formatting/*",
+        ".hypertext/formatter-tools/*",
+        "Casks/*.rb",
+        "tests/*.rb",
+        "scripts/update-homebrew-cask.mjs",
+        "scripts/homebrew-cask.test.mjs"
+      ],
+      "kind": "vendored",
+      "reason": "Exact upstream Studio formatting and Curfew packaging sources; update from their owning repositories."
+    },
+    {
+      "include": [".gitignore"],
+      "kind": "non-formattable",
+      "reason": "Git line-oriented ignore patterns."
+    }
+  ]
+}

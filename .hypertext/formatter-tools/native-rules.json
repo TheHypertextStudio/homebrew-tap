@@ -1,0 +1,16 @@
+{
+  "setup": [["python3", "{root}/.hypertext/formatter-tools/native.py", "setup-rust"]],
+  "rules": [
+    {
+      "name": "rustfmt",
+      "patterns": ["**/*.rs", "*.rs"],
+      "argv": [
+        "python3",
+        "{root}/.hypertext/formatter-tools/native.py",
+        "rust",
+        "--edition",
+        "2021"
+      ]
+    }
+  ]
+}
