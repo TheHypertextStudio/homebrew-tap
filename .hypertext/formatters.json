@@ -44,7 +44,7 @@
         ".hypertext/formatting/*",
         ".hypertext/formatter-tools/*",
         "Casks/*.rb",
-        "tests/*.rb",
+        "Tests/Packaging/*.rb",
         "scripts/update-homebrew-cask.mjs",
         "scripts/homebrew-cask.test.mjs"
       ],
