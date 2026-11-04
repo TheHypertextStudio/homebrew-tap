@@ -1,0 +1,25 @@
+name: Update Curfew release
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: update-curfew
+  cancel-in-progress: false
+jobs:
+  prepare-update:
+    runs-on: macos-26
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - run: node scripts/update-homebrew-cask.mjs --latest --apply
+      - name: Export the verified update for maintainer review
+        run: |
+          git diff --binary -- Casks/curfew.rb > curfew-cask-update.patch
+          echo 'Run the maintainer update command with native gh authentication to open its pull request.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: verified-curfew-cask-update
+          path: curfew-cask-update.patch

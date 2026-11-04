@@ -1,0 +1,10 @@
+{
+  "source_repository": "https://github.com/TheHypertextStudio/curfew",
+  "source_kind": "Maintainer-approved packaging worktree, imported before the pending app source release; hashes identify exact bytes, not a claim about published main.",
+  "files": {
+    "Casks/curfew.rb": "5cdbb050349e2c1417b7a1d5d8f4626507051c42878950b444fc8968d416d783",
+    "scripts/update-homebrew-cask.mjs": "a1e73a30cde3fd4c048ebbc7d3aabcccf0c97860853ada9053966e77874f0e62",
+    "scripts/homebrew-cask.test.mjs": "ddb4ebf3f69760711ce1d149c46de3e84a556510411ac86599d4055102c56449",
+    "Tests/Packaging/cask_cli_test.rb": "6b2421fc97a4cfa466bb9cb04b98d64c6f7403656d2049d4c659d8623a26d10e"
+  }
+}

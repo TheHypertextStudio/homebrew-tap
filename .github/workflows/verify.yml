@@ -1,0 +1,23 @@
+name: Verify released casks
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: casks-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  native-cask:
+    runs-on: macos-26
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - run: node --test scripts/*.test.mjs
+      - run: brew style Casks/curfew.rb
+      - run: node scripts/validate-release.mjs
