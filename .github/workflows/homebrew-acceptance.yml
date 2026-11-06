@@ -1,0 +1,49 @@
+name: Homebrew acceptance
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      tap-ref:
+        description: Exact tap commit containing the target cask
+        required: true
+        type: string
+      prior-version:
+        required: true
+        type: string
+      prior-run-id:
+        required: true
+        type: string
+      prior-source-sha:
+        required: true
+        type: string
+      prior-artifact-id:
+        required: true
+        type: string
+      prior-archive-sha256:
+        required: true
+        type: string
+permissions:
+  actions: read
+  contents: read
+jobs:
+  homebrew:
+    runs-on: macos-26
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: TheHypertextStudio/homebrew-tap
+          ref: ${{ inputs.tap-ref || github.sha }}
+          persist-credentials: false
+      - name: Exercise Homebrew install and upgrade from outside the checkout
+        working-directory: ${{ runner.temp }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAP_REF: ${{ inputs.tap-ref || github.sha }}
+          PRIOR_VERSION: ${{ inputs.prior-version }}
+          PRIOR_RUN_ID: ${{ inputs.prior-run-id }}
+          PRIOR_SOURCE_SHA: ${{ inputs.prior-source-sha }}
+          PRIOR_ARTIFACT_ID: ${{ inputs.prior-artifact-id }}
+          PRIOR_ARCHIVE_SHA256: ${{ inputs.prior-archive-sha256 }}
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: node "$GITHUB_WORKSPACE/scripts/homebrew-acceptance.mjs"
