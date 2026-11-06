@@ -21,4 +21,10 @@ For local artifact acceptance, run `node scripts/validate-release.mjs`. An exist
 
 Run **Homebrew acceptance** on tap `main` after integration to test the public install on a clean GitHub-hosted Mac. The job starts outside the checkout, installs the public cask by its fully qualified name, and runs both commands through PATH. It repeats the install and verifies that Homebrew preserves the command links.
 
-To verify an upgrade before integration, call `.github/workflows/homebrew-acceptance.yml` at an exact tap commit from a Curfew workflow with `actions: read` and `contents: read`. Pass the target tap commit as `tap-ref` and identify a retained signed predecessor with `prior-version`, `prior-run-id`, `prior-source-sha`, `prior-artifact-id`, and `prior-archive-sha256`. The caller's repository token reads its own artifact. The job checks the provenance and checksums, installs the predecessor through its historical cask, then upgrades with the proposed cask. The job reports the versions, runner architecture, macOS and Homebrew versions, and tap commit. A predecessor whose artifact has expired needs a different retained signed predecessor.
+To repeat the signed Curfew 0.0.14 to 0.0.16 upgrade check, dispatch the Curfew evidence branch while its predecessor artifact remains available.
+
+```sh
+gh workflow run ci.yml --repo TheHypertextStudio/curfew --ref codex/homebrew-acceptance -f capture_scope=homebrew
+```
+
+For a later release, adapt the [verified Curfew-side job](https://github.com/TheHypertextStudio/curfew/blob/3fa4b889a04f9b637cdfcd50d253be49d15f4c40/.github/workflows/ci.yml#L18-L45). Check out the public tap at the exact target cask commit and set `TAP_REF` to that commit. Run `scripts/homebrew-acceptance.mjs` from the runner's temporary directory. Give the Curfew job `actions: read` and `contents: read` and pass its token as `GH_TOKEN` so it can read its own retained artifact. Identify the predecessor with `PRIOR_VERSION`, `PRIOR_RUN_ID`, `PRIOR_SOURCE_SHA`, `PRIOR_ARTIFACT_ID`, and `PRIOR_ARCHIVE_SHA256`. The job checks provenance and checksums, installs the predecessor through its historical cask, then upgrades with the proposed cask. It reports the versions, runner architecture, and tap commit. An expired artifact needs a different retained signed predecessor.
