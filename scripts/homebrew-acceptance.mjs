@@ -64,8 +64,9 @@ function verifyTeam(path) {
 
 function verifyInstall(version) {
   requireMatch(
-    capture("brew", ["list", "--cask", "--versions", token]) ===
-      `curfew ${version}`,
+    capture("brew", ["list", "--cask", "--versions"])
+      .split("\n")
+      .includes(`curfew ${version}`),
     `Homebrew did not record Curfew ${version}.`,
   );
   requireMatch(
