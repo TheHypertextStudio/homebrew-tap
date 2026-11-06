@@ -21,10 +21,8 @@ For local artifact acceptance, run `node scripts/validate-release.mjs`. An exist
 
 Run **Homebrew acceptance** on tap `main` after integration to test the public install on a clean GitHub-hosted Mac. The job starts outside the checkout, installs the public cask by its fully qualified name, and runs both commands through PATH. It repeats the install and verifies that Homebrew preserves the command links.
 
-To repeat the signed Curfew 0.0.14 to 0.0.16 upgrade check, dispatch the Curfew evidence branch while its predecessor artifact remains available.
+## Test a signed candidate before publication
 
-```sh
-gh workflow run ci.yml --repo TheHypertextStudio/curfew --ref codex/homebrew-acceptance -f capture_scope=homebrew
-```
+Use the [Curfew candidate acceptance runbook](https://github.com/TheHypertextStudio/curfew/blob/286ad403b9cd507566b4f6fa1d6d70f46cdfc959/Documentation/homebrew-candidate-acceptance.md) to run a fresh install and an upgrade from the published cask on separate clean Macs. Pass the signing run ID, source commit, and DMG checksum from the candidate manifest. The job verifies both commands on PATH and repeats the Homebrew operation to check that it leaves the installation unchanged.
 
-For a later release, adapt the [verified Curfew-side job](https://github.com/TheHypertextStudio/curfew/blob/3fa4b889a04f9b637cdfcd50d253be49d15f4c40/.github/workflows/ci.yml#L18-L45). Check out the public tap at the exact target cask commit and set `TAP_REF` to that commit. Run `scripts/homebrew-acceptance.mjs` from the runner's temporary directory. Give the Curfew job `actions: read` and `contents: read` and pass its token as `GH_TOKEN` so it can read its own retained artifact. Identify the predecessor with `PRIOR_VERSION`, `PRIOR_RUN_ID`, `PRIOR_SOURCE_SHA`, `PRIOR_ARTIFACT_ID`, and `PRIOR_ARCHIVE_SHA256`. The job checks provenance and checksums, installs the predecessor through its historical cask, then upgrades with the proposed cask. It reports the versions, runner architecture, and tap commit. An expired artifact needs a different retained signed predecessor.
+For example, [the 0.0.20 candidate check](https://github.com/TheHypertextStudio/curfew/actions/runs/42203730847) upgraded public 0.0.16 and tested all 22 beta help paths.
