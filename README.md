@@ -11,3 +11,7 @@ Homebrew manages the app, `curfew-ctl`, and `curfew-mcp`. Curfew requires macOS 
 Run `brew upgrade --cask thehypertextstudio/tap/curfew` to upgrade. Run `brew uninstall --cask curfew` to remove it. Uninstall first requires Curfew to unregister its background service successfully. Ordinary uninstall preserves application data. `brew uninstall --cask --zap curfew` explicitly removes the listed application data.
 
 Maintainers update the cask through the verified release workflow described in [maintenance](docs/maintenance.md).
+
+## License
+
+[MIT](LICENSE) © Hypertext Studio. The license covers the cask and tooling in this repository; Curfew itself is released under its own license in its [repository](https://github.com/TheHypertextStudio/curfew).
